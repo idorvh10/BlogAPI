@@ -1,0 +1,9 @@
+Flask
+Flask-SQLAlchemy
+Flask-JWT-Extended
+Flask-Bcrypt
+Flask-CORS
+marshmallow
+python-dotenv
+pytest
+pytest-flask

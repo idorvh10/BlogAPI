@@ -1,0 +1,66 @@
+# Blog Platform API - Docker Compose
+# ===================================
+# Multi-service setup for development and production
+
+version: '3.8'
+
+services:
+  # Main application service
+  app:
+    build: .
+    container_name: blog_api
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_ENV=development
+      # - DATABASE_URL=postgresql://bloguser:blogpass@db:5432/blogdb
+      - JWT_SECRET_KEY=your-super-secure-jwt-secret-key-change-in-production
+      - SECRET_KEY=your-super-secure-secret-key-change-in-production
+    depends_on:
+      - redis
+    volumes:
+      - ./logs:/app/logs
+    networks:
+      - blog_network
+    restart: unless-stopped
+
+  # Redis service for caching (optional)
+  redis:
+    image: redis:7-alpine
+    container_name: blog_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - blog_network
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+
+  # Nginx reverse proxy (optional)
+  nginx:
+    image: nginx:alpine
+    container_name: blog_nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - app
+    networks:
+      - blog_network
+    restart: unless-stopped
+
+# Named volumes for data persistence
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+
+# Custom network
+networks:
+  blog_network:
+    driver: bridge
