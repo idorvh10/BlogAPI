@@ -15,7 +15,7 @@ Before you begin, ensure you have the following installed:
 ### 1. Clone the Repository
 ```bash
 git clone <repository-url>
-cd BlogAPI
+cd BlogAPI/BlogAPI
 ```
 
 ### 2. Create Virtual Environment
