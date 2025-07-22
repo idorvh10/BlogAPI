@@ -53,12 +53,7 @@ DATABASE_URL=sqlite:///blog.db
 JWT_ACCESS_TOKEN_EXPIRES=3600
 ```
 
-### 5. Initialize the Database
-```bash
-python -c "from BlogAPI.App import create_app; from BlogAPI.App.db import db; app = create_app(); app.app_context().push(); db.create_all(); print('Database initialized!')"
-```
-
-### 6. Run the Application
+### 5. Run the Application
 ```bash
 python run.py
 ```
@@ -286,10 +281,10 @@ The API will be available at: `http://localhost:5000`
 Run the built-in test suite:
 ```bash
 # Run all tests
-python -m pytest BlogAPI/tests/ -v
+python -m pytest BlogAPI/tests/
 
 # Run specific test file
-python -m pytest BlogAPI/tests/test_auth.py -v
+python -m pytest BlogAPI/tests/test_auth.py
 ```
 
 ## API Endpoints Quick Reference
